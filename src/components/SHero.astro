@@ -30,6 +30,17 @@ import ASeparator from './ASeparator.astro'
     />
   </div>
 
+  <!-- Animated GIF overlay -->
+  <div class="s__animated-overlay">
+    <img
+      class="s__animated-gif js-animated-gif"
+      src="https://dpbtfxyybppbzesnsbrr.supabase.co/storage/v1/object/public/hh//ezgif-4ec7d572ee2a47.gif"
+      alt="Animated design element"
+      width="200"
+      height="200"
+    />
+  </div>
+
   <div class="s__border js-border"></div>
 </div><!-- .s-hero -->
 
@@ -45,6 +56,7 @@ import ASeparator from './ASeparator.astro'
   class Section {
     el: HTMLElement
     words: NodeListOf<HTMLElement>
+    animatedGif: HTMLElement
 
     isPaused: boolean
     isWaiting: boolean
@@ -57,6 +69,7 @@ import ASeparator from './ASeparator.astro'
       // Elements
       this.el = document.querySelector('.s-hero')
       this.words = this.el.querySelectorAll('.js-word')
+      this.animatedGif = this.el.querySelector('.js-animated-gif')
 
       // Properties
       this.isPaused = true
@@ -125,6 +138,7 @@ import ASeparator from './ASeparator.astro'
       const chars = content.querySelectorAll('.char__inner')
       const separators = content.querySelectorAll('.js-separator')
       const star = content.querySelector('.js-star')
+      const animatedGif = this.animatedGif
 
       const tl = gsap.timeline()
 
@@ -235,6 +249,24 @@ import ASeparator from './ASeparator.astro'
           ease: 'expo.inOut',
         },
         0.75
+      )
+
+      // Animate the GIF entrance
+      tl.fromTo(
+        animatedGif,
+        {
+          scale: 0,
+          rotation: 180,
+          opacity: 0,
+        },
+        {
+          scale: 1,
+          rotation: 0,
+          opacity: 1,
+          duration: 1.5,
+          ease: 'back.out(1.7)',
+        },
+        1.5
       )
 
       tl.call(() => {
@@ -367,6 +399,50 @@ import ASeparator from './ASeparator.astro'
         background: color(secondary);
 
         content: '';
+      }
+    }
+
+    .s__animated-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 10;
+
+      transform: translate(-50%, -50%);
+
+      pointer-events: none;
+    }
+
+    .s__animated-gif {
+      display: block;
+      width: 200px;
+      height: 200px;
+
+      opacity: 0;
+      transform-origin: center;
+
+      will-change: transform, opacity;
+
+      @include mq(tablet) {
+        width: 150px;
+        height: 150px;
+      }
+
+      @include mq(phone) {
+        width: 120px;
+        height: 120px;
+      }
+
+      // Add a subtle floating animation
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-10px);
       }
     }
 
