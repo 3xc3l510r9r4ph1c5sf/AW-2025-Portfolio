@@ -114,6 +114,81 @@ const lines = [
       </p>
     </div>
   </div>
+
+  <div class="s__contact-form">
+    <div class="s__contact-form__inner">
+      <h3 class="s__contact-form__title">Get In Touch</h3>
+      <form class="s__form js-contact-form" action="#" method="POST">
+        <div class="s__form__group">
+          <label for="name" class="s__form__label">Name</label>
+          <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            class="s__form__input" 
+            required
+          />
+        </div>
+
+        <div class="s__form__group">
+          <label for="email" class="s__form__label">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            class="s__form__input" 
+            required
+          />
+        </div>
+
+        <div class="s__form__group">
+          <label for="project" class="s__form__label">Project Type</label>
+          <select id="project" name="project" class="s__form__select" required>
+            <option value="">Select a service</option>
+            <option value="brand-identity">Brand Identity Design</option>
+            <option value="social-media">Social Media Design & Strategy</option>
+            <option value="web-design">Web & UX/UI Design</option>
+            <option value="motion-graphics">Motion & Animation</option>
+            <option value="ai-enhanced">AI-Enhanced Design</option>
+            <option value="creative-direction">Creative Direction</option>
+            <option value="consulting">Creative Consulting</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="s__form__group">
+          <label for="budget" class="s__form__label">Budget Range</label>
+          <select id="budget" name="budget" class="s__form__select">
+            <option value="">Select budget range</option>
+            <option value="5k-10k">$5K - $10K</option>
+            <option value="10k-25k">$10K - $25K</option>
+            <option value="25k-50k">$25K - $50K</option>
+            <option value="50k+">$50K+</option>
+            <option value="discuss">Let's discuss</option>
+          </select>
+        </div>
+
+        <div class="s__form__group s__form__group--full">
+          <label for="message" class="s__form__label">Project Details</label>
+          <textarea 
+            id="message" 
+            name="message" 
+            class="s__form__textarea" 
+            rows="5" 
+            placeholder="Tell me about your project, goals, timeline, and any specific requirements..."
+            required
+          ></textarea>
+        </div>
+
+        <button type="submit" class="s__form__submit js-submit">
+          <span class="s__form__submit__text">Send Message</span>
+          <span class="s__form__submit__loading">Sending...</span>
+        </button>
+
+        <div class="s__form__status js-form-status"></div>
+      </form>
+    </div>
+  </div>
 </section>
 
 <script>
@@ -130,6 +205,7 @@ const lines = [
     hover: HTMLElement
     button: HTMLElement
     cta: HTMLElement
+    contactForm: HTMLElement
 
     bounding: DOMRect
 
@@ -173,6 +249,7 @@ const lines = [
       this.hover = this.el.querySelector('.js-hover')
       this.button = this.el.querySelector('.js-button')
       this.cta = this.el.querySelector('.js-cta')
+      this.contactForm = this.el.querySelector('.js-contact-form')
 
       // Properties
       this.grid = {
@@ -241,6 +318,62 @@ const lines = [
       this.el.addEventListener('intersect', this.onIntersect.bind(this), {
         passive: true,
       })
+
+      // Contact form
+      if (this.contactForm) {
+        this.contactForm.addEventListener('submit', this.onFormSubmit.bind(this))
+      }
+    }
+
+    /**
+     * Form submit handler
+     */
+    async onFormSubmit(e) {
+      e.preventDefault()
+
+      const form = e.target
+      const submitBtn = form.querySelector('.js-submit')
+      const statusEl = form.querySelector('.js-form-status')
+      const formData = new FormData(form)
+
+      // Show loading state
+      submitBtn.classList.add('is-loading')
+      statusEl.textContent = ''
+
+      try {
+        // Create mailto link with form data
+        const name = formData.get('name')
+        const email = formData.get('email')
+        const project = formData.get('project')
+        const budget = formData.get('budget')
+        const message = formData.get('message')
+
+        const subject = `New Project Inquiry from ${name}`
+        const body = `
+Name: ${name}
+Email: ${email}
+Project Type: ${project}
+Budget Range: ${budget}
+
+Message:
+${message}
+        `.trim()
+
+        const mailtoLink = `mailto:sanchezoropezasf@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+        
+        // Open email client
+        window.location.href = mailtoLink
+
+        // Show success message
+        statusEl.innerHTML = '<span style="color: #22c55e;">Thank you! Your email client should open with the message ready to send.</span>'
+        form.reset()
+
+      } catch (error) {
+        console.error('Form submission error:', error)
+        statusEl.innerHTML = '<span style="color: #ef4444;">Something went wrong. Please try again or email directly.</span>'
+      } finally {
+        submitBtn.classList.remove('is-loading')
+      }
     }
 
     /**
@@ -1161,6 +1294,159 @@ const lines = [
             font-size: 1rem;
           }
         }
+      }
+    }
+
+    .s__contact-form {
+      position: absolute;
+      bottom: -50rem;
+      left: 50%;
+      z-index: 4;
+
+      width: min(90%, 50rem);
+
+      transform: translateX(-50%);
+
+      @include mq(phone) {
+        width: 95%;
+      }
+
+      &__inner {
+        padding: 3rem;
+
+        background: color(primary);
+        border: 1px solid color(secondary);
+
+        @include mq(phone) {
+          padding: 2rem;
+        }
+      }
+
+      &__title {
+        margin: 0 0 2rem 0;
+
+        font: 700 1.5rem / 1.2 font-family(fraktion);
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+
+        @include mq(phone) {
+          font-size: 1.25rem;
+          margin-bottom: 1.5rem;
+        }
+      }
+    }
+
+    .s__form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+
+      @include mq(phone) {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      &__group {
+        display: flex;
+        flex-direction: column;
+
+        &--full {
+          grid-column: 1 / -1;
+        }
+      }
+
+      &__label {
+        margin-bottom: 0.5rem;
+
+        font: 700 0.875rem / 1 font-family(fraktion);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      &__input,
+      &__select,
+      &__textarea {
+        padding: 0.75rem;
+
+        background: color(primary);
+        border: 1px solid color(secondary);
+        border-radius: 0;
+
+        font: 400 1rem / 1.4 font-family(editorial);
+
+        transition: border-color 0.2s ease;
+
+        &:focus {
+          outline: none;
+          border-color: color(secondary);
+          box-shadow: 0 0 0 2px rgba(22, 0, 0, 0.1);
+        }
+
+        &::placeholder {
+          color: rgba(22, 0, 0, 0.5);
+        }
+      }
+
+      &__textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      &__submit {
+        grid-column: 1 / -1;
+        position: relative;
+
+        padding: 1rem 2rem;
+        margin-top: 1rem;
+
+        background: color(secondary);
+        border: 1px solid color(secondary);
+        border-radius: 0;
+        cursor: pointer;
+
+        color: color(primary);
+        font: 700 1rem / 1 font-family(fraktion);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: color(primary);
+          color: color(secondary);
+        }
+
+        &.is-loading {
+          pointer-events: none;
+
+          .s__form__submit__text {
+            opacity: 0;
+          }
+
+          .s__form__submit__loading {
+            opacity: 1;
+          }
+        }
+
+        &__loading {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+
+          opacity: 0;
+          transform: translate(-50%, -50%);
+
+          transition: opacity 0.2s ease;
+        }
+      }
+
+      &__status {
+        grid-column: 1 / -1;
+        margin-top: 1rem;
+
+        font: 400 0.875rem / 1.4 font-family(editorial);
+        text-align: center;
       }
     }
 
