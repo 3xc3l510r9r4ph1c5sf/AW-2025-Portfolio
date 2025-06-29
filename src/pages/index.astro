@@ -116,9 +116,20 @@ import '../styles/global.scss'
       <SiteFoot />
     </div><!-- .site-wrapper -->
 
+    <!-- GIF Preloader -->
+    <div class="site-gif-preloader js-gif-preloader">
+      <img
+        class="site-gif-preloader__gif js-preloader-gif"
+        src="https://dpbtfxyybppbzesnsbrr.supabase.co/storage/v1/object/public/hh//ezgif-4ec7d572ee2a47.gif"
+        alt="Loading animation"
+        width="400"
+        height="400"
+      />
+    </div>
+
     <div
       class="site-intro js-intro"
-      style="opacity: 1; position: fixed; top: 0; left: 0; z-index: 50; width: 100%; height: 100%; background: #F40C3F;"
+      style="opacity: 0; position: fixed; top: 0; left: 0; z-index: 50; width: 100%; height: 100%; background: #F40C3F;"
     >
       <div class="sb-logo js-logo">
         <div class="sb__path sb__path--v sb__path--v-1 js-logo-line-v"></div>
@@ -129,7 +140,6 @@ import '../styles/global.scss'
         <div class="sb__path sb__path--v sb__path--v-4 js-logo-line-v"></div>
         <div class="sb__path sb__path--h sb__path--h-3 js-logo-line-h"></div>
         <div class="sb__path sb__path--v sb__path--v-5 js-logo-line-v"></div>
-      
       </div><!-- .sb-logo -->
 
       <div class="site-intro__border site-intro__border--top js-border-top">
@@ -220,7 +230,7 @@ import '../styles/global.scss'
         Ticker.init()
 
         this.onResize()
-        Ticker.nextTick(this.intro, this)
+        Ticker.nextTick(this.gifPreloader, this)
       }
 
       /**
@@ -387,6 +397,65 @@ import '../styles/global.scss'
       }
 
       /**
+       * GIF Preloader
+       */
+      gifPreloader() {
+        const gifPreloader: HTMLElement = document.querySelector('.js-gif-preloader')
+        const gif: HTMLElement = document.querySelector('.js-preloader-gif')
+
+        // Timeline for GIF preloader
+        const tl = gsap.timeline()
+
+        // Show GIF for 8 seconds
+        tl.set(gifPreloader, {
+          opacity: 1,
+        })
+
+        tl.fromTo(
+          gif,
+          {
+            scale: 0,
+            rotation: 180,
+          },
+          {
+            scale: 1,
+            rotation: 0,
+            duration: 1,
+            ease: 'back.out(1.7)',
+          },
+          0
+        )
+
+        // Hold for 6 more seconds (total 8 seconds including 1s entrance + 1s exit)
+        tl.to({}, { duration: 6 }, 1)
+
+        // Exit animation
+        tl.to(
+          gif,
+          {
+            scale: 0,
+            rotation: -180,
+            duration: 1,
+            ease: 'back.in(1.7)',
+          },
+          7
+        )
+
+        tl.to(
+          gifPreloader,
+          {
+            opacity: 0,
+            duration: 0.5,
+            onComplete: () => {
+              gifPreloader.remove()
+              this.intro()
+            },
+          },
+          7.5
+        )
+      }
+
+      /**
        * Intro
        */
       intro() {
@@ -408,6 +477,7 @@ import '../styles/global.scss'
         })
 
         tl.set(intro, {
+          opacity: 1,
           background: 'transparent',
         })
 
@@ -499,7 +569,6 @@ import '../styles/global.scss'
           },
           null,
           '-=1.85'
-          // 0.5
         )
 
         tl.call(
@@ -515,7 +584,6 @@ import '../styles/global.scss'
           },
           null,
           5
-          // 0
         )
       }
     }
@@ -539,6 +607,37 @@ import '../styles/global.scss'
 
       @include mq(phone) {
         padding: 0.5rem;
+      }
+    }
+
+    .site-gif-preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+
+      width: 100%;
+      height: 100%;
+
+      background: #000;
+      opacity: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &__gif {
+        display: block;
+        width: min(80vw, 400px);
+        height: min(80vh, 400px);
+
+        object-fit: contain;
+        transform-origin: center;
+
+        @include mq(phone) {
+          width: min(90vw, 300px);
+          height: min(90vh, 300px);
+        }
       }
     }
 
