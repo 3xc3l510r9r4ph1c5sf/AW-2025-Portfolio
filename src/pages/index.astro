@@ -116,21 +116,18 @@ import '../styles/global.scss'
       <SiteFoot />
     </div><!-- .site-wrapper -->
 
-    <!-- GIF Preloader -->
-    <div class="site-gif-preloader js-gif-preloader">
+    <div
+      class="site-intro js-intro"
+      style="opacity: 1; position: fixed; top: 0; left: 0; z-index: 50; width: 100%; height: 100%; background: #000;"
+    >
       <img
-        class="site-gif-preloader__gif js-preloader-gif"
+        class="site-intro__gif js-intro-gif"
         src="https://dpbtfxyybppbzesnsbrr.supabase.co/storage/v1/object/public/hh//ezgif-4ec7d572ee2a47.gif"
         alt="Loading animation"
         width="400"
         height="400"
       />
-    </div>
 
-    <div
-      class="site-intro js-intro"
-      style="opacity: 0; position: fixed; top: 0; left: 0; z-index: 50; width: 100%; height: 100%; background: #F40C3F;"
-    >
       <div class="sb-logo js-logo">
         <div class="sb__path sb__path--v sb__path--v-1 js-logo-line-v"></div>
         <div class="sb__path sb__path--h sb__path--h-1 js-logo-line-h"></div>
@@ -230,7 +227,7 @@ import '../styles/global.scss'
         Ticker.init()
 
         this.onResize()
-        Ticker.nextTick(this.gifPreloader, this)
+        Ticker.nextTick(this.intro, this)
       }
 
       /**
@@ -397,20 +394,28 @@ import '../styles/global.scss'
       }
 
       /**
-       * GIF Preloader
+       * Intro
        */
-      gifPreloader() {
-        const gifPreloader: HTMLElement = document.querySelector('.js-gif-preloader')
-        const gif: HTMLElement = document.querySelector('.js-preloader-gif')
+      intro() {
+        // Selectors
+        const wrapper: HTMLElement = document.querySelector('.js-site-wrapper')
+        const intro: HTMLElement = document.querySelector('.js-intro')
+        const mount: HTMLElement = document.querySelector('.js-mount')
+        const gif: HTMLElement = intro.querySelector('.js-intro-gif')
+        const logoLinesV: NodeList = intro.querySelectorAll('.js-logo-line-v')
+        const logoLinesH: NodeList = intro.querySelectorAll('.js-logo-line-h')
+        const borderTop: HTMLElement = intro.querySelector('.js-border-top')
+        const borderLeft: HTMLElement = intro.querySelector('.js-border-left')
+        const borderRight: HTMLElement = intro.querySelector('.js-border-right')
 
-        // Timeline for GIF preloader
+        // Timeline
         const tl = gsap.timeline()
 
-        // Show GIF for 8 seconds
-        tl.set(gifPreloader, {
-          opacity: 1,
+        tl.set(wrapper, {
+          opacity: '',
         })
 
+        // Show GIF for 8 seconds
         tl.fromTo(
           gif,
           {
@@ -426,10 +431,10 @@ import '../styles/global.scss'
           0
         )
 
-        // Hold for 6 more seconds (total 8 seconds including 1s entrance + 1s exit)
+        // Hold for 6 more seconds
         tl.to({}, { duration: 6 }, 1)
 
-        // Exit animation
+        // Exit GIF
         tl.to(
           gif,
           {
@@ -441,45 +446,10 @@ import '../styles/global.scss'
           7
         )
 
-        tl.to(
-          gifPreloader,
-          {
-            opacity: 0,
-            duration: 0.5,
-            onComplete: () => {
-              gifPreloader.remove()
-              this.intro()
-            },
-          },
-          7.5
-        )
-      }
-
-      /**
-       * Intro
-       */
-      intro() {
-        // Selectors
-        const wrapper: HTMLElement = document.querySelector('.js-site-wrapper')
-        const intro: HTMLElement = document.querySelector('.js-intro')
-        const mount: HTMLElement = document.querySelector('.js-mount')
-        const logoLinesV: NodeList = intro.querySelectorAll('.js-logo-line-v')
-        const logoLinesH: NodeList = intro.querySelectorAll('.js-logo-line-h')
-        const borderTop: HTMLElement = intro.querySelector('.js-border-top')
-        const borderLeft: HTMLElement = intro.querySelector('.js-border-left')
-        const borderRight: HTMLElement = intro.querySelector('.js-border-right')
-
-        // Timeline
-        const tl = gsap.timeline()
-
-        tl.set(wrapper, {
-          opacity: '',
-        })
-
+        // Change background and start logo animation
         tl.set(intro, {
-          opacity: 1,
-          background: 'transparent',
-        })
+          background: '#F40C3F',
+        }, 8)
 
         tl.fromTo(
           logoLinesV,
@@ -492,7 +462,7 @@ import '../styles/global.scss'
             ease: 'power4.inOut',
             stagger: 0.15,
           },
-          0
+          8
         )
 
         tl.fromTo(
@@ -506,7 +476,7 @@ import '../styles/global.scss'
             ease: 'power4.inOut',
             stagger: 0,
           },
-          1
+          9
         )
 
         tl.set(logoLinesV, {
@@ -525,7 +495,7 @@ import '../styles/global.scss'
             immediateRender: false,
             stagger: 0.1,
           },
-          2
+          10
         )
 
         tl.fromTo(
@@ -540,7 +510,7 @@ import '../styles/global.scss'
             immediateRender: false,
             stagger: 0.1,
           },
-          2.1
+          10.1
         )
 
         tl.from(
@@ -550,7 +520,7 @@ import '../styles/global.scss'
             duration: 3,
             ease: 'power3.inOut',
           },
-          1
+          9
         )
 
         tl.from(
@@ -560,15 +530,19 @@ import '../styles/global.scss'
             duration: 3,
             ease: 'power3.inOut',
           },
-          1
+          9
         )
+
+        tl.set(intro, {
+          background: 'transparent',
+        }, 11)
 
         tl.call(
           () => {
             document.dispatchEvent(new CustomEvent('intro'))
           },
           null,
-          '-=1.85'
+          10.15
         )
 
         tl.call(
@@ -583,7 +557,7 @@ import '../styles/global.scss'
             })
           },
           null,
-          5
+          13
         )
       }
     }
@@ -607,37 +581,6 @@ import '../styles/global.scss'
 
       @include mq(phone) {
         padding: 0.5rem;
-      }
-    }
-
-    .site-gif-preloader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 100;
-
-      width: 100%;
-      height: 100%;
-
-      background: #000;
-      opacity: 0;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      &__gif {
-        display: block;
-        width: min(80vw, 400px);
-        height: min(80vh, 400px);
-
-        object-fit: contain;
-        transform-origin: center;
-
-        @include mq(phone) {
-          width: min(90vw, 300px);
-          height: min(90vh, 300px);
-        }
       }
     }
 
@@ -674,12 +617,28 @@ import '../styles/global.scss'
       width: 100%;
       height: 100%;
 
-      background: color(primary);
+      background: #000;
+
+      &__gif {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+
+        width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+        transform-origin: center;
+
+        will-change: transform;
+      }
 
       .sb-logo {
         position: absolute;
         top: 50%;
         left: 50%;
+        z-index: 2;
 
         width: 3rem;
         height: 3rem;
@@ -757,6 +716,7 @@ import '../styles/global.scss'
         --width: 1rem;
 
         position: absolute;
+        z-index: 2;
 
         background: color(secondary);
 
