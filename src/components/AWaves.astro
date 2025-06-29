@@ -403,9 +403,37 @@ const { class: className } = Astro.props
 
       :global(.a__line) {
         fill: none;
-        stroke: color(secondary);
+        stroke: url(#gradient-stroke);
         stroke-width: 1px;
       }
     }
+
+    // Add gradient definition
+    &:before {
+      content: '';
+    }
+
+    svg:before {
+      content: '';
+    }
+  }
+
+  // Global gradient definition for SVG strokes
+  :global(body):before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    z-index: -1;
+  }
+
+  :global(body):after {
+    content: '<svg><defs><linearGradient id="gradient-stroke" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:rgba(222,168,248,1);stop-opacity:1" /><stop offset="21.9%" style="stop-color:rgba(168,222,248,1);stop-opacity:1" /><stop offset="35.6%" style="stop-color:rgba(189,250,205,1);stop-opacity:1" /><stop offset="53.9%" style="stop-color:rgba(243,250,189,1);stop-opacity:1" /><stop offset="66.8%" style="stop-color:rgba(250,227,189,1);stop-opacity:1" /><stop offset="95%" style="stop-color:rgba(248,172,171,1);stop-opacity:1" /><stop offset="99.9%" style="stop-color:rgba(254,170,212,1);stop-opacity:1" /></linearGradient></defs></svg>';
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    z-index: -1;
   }
 </style>

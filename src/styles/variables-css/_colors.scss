@@ -8,12 +8,20 @@
 :root {
   // Colors
   @each $variable, $color in map.get($theme-colors, 'default') {
-    --color-#{"" + $variable}: #{$color};
+    @if $variable == 'gradient' {
+      --color-#{$variable}: #{$color};
+    } @else {
+      --color-#{$variable}: #{$color};
+    }
   }
 }
 
 .theme-contrasted {
   @each $variable, $color in map.get($theme-colors, 'contrasted') {
-    --color-#{"" + $variable}: #{$color};
+    @if $variable == 'gradient' {
+      --color-#{$variable}: #{$color};
+    } @else {
+      --color-#{$variable}: #{$color};
+    }
   }
 }
