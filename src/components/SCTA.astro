@@ -106,6 +106,14 @@ const lines = [
       <path class="s__grid__path js-grid-path" d=""></path>
     </svg>
   </div><!-- .s__grid -->
+
+  <div class="s__description">
+    <div class="s__description__inner">
+      <p>
+        Whether you've got a fully-formed brief or just a spark of an idea, I'm here to help turn it into something scroll-stopping, thumb-pausing, and heart-clicking. Drop me a line—your next favorite project starts here.
+      </p>
+    </div>
+  </div>
 </section>
 
 <script>
@@ -1115,6 +1123,44 @@ const lines = [
       .a-dots {
         scale: 1;
         transition: scale 1.8s ease(out-quint) 0.6s;
+      }
+    }
+
+    .s__description {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      z-index: 4;
+
+      width: min(90%, 40rem);
+
+      transform: translateX(-50%);
+
+      @include mq(phone) {
+        bottom: 1rem;
+        width: 90%;
+      }
+
+      &__inner {
+        padding: 2rem;
+
+        background: color(primary);
+        border: 1px solid color(secondary);
+
+        @include mq(phone) {
+          padding: 1.5rem;
+        }
+
+        p {
+          margin: 0;
+
+          font: 200 1.125rem / 1.5 font-family(editorial);
+          text-align: center;
+
+          @include mq(phone) {
+            font-size: 1rem;
+          }
+        }
       }
     }
 
