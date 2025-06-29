@@ -1,23 +1,50 @@
 ---
-// Awards are nice, but they're not the goal.
-// Focus on building quality websites, enjoying the process, and making your clients happy—that's what really matters.
-// Some amazing sites never win anything, while mediocre ones sometimes do. Awards are a niche, not a universal measure of value.
-// Stay sharp, stay honest, and keep having fun.
-const awards = {
-  counters: {
-    awwwards: ['SOTD x 16', 'Honors x 1'],
-    fwa: ['SOTD x 4', 'MOTD x 2'],
-    cssda: ['WOTD x 18', 'WOTM x 1'],
-  },
-  texts: {
-    webby2025: '2025 Webby Awards Winner <br/>Best Home Page',
-    commArt2017: 'Comm Arts Mag Interactive  Annual Competition Winner 2017',
-    netMag2016: 'Net Mag SOTM Summer 2016',
-    gsapOct2024: 'GSAP SOTM October 2024',
-    gsapNov2024: 'GSAP SOTM November 2024',
-    CSSDA2016: 'CSSDA Best Front-End <br/>Developer 2016',
-    CSSDA2015: 'CSSDA Best Front-End <br/>Developer 2015',
-  },
+// Services grid to replace awards section
+const services = {
+  topSection: [
+    {
+      title: 'Creative Direction',
+      description: 'Strategic leadership across design, messaging, and brand storytelling.',
+    },
+    {
+      title: 'Brand Identity Design',
+      description: 'Logo design, typography systems, color palettes, and full identity guidelines.',
+    },
+    {
+      title: 'Social Media Design & Strategy',
+      description: 'Content creation + growth-focused visuals tailored for digital engagement.',
+    },
+    {
+      title: 'UI/UX Design',
+      description: 'Human-centered web and app design focused on conversion and clarity.',
+    },
+    {
+      title: 'Webflow / No-Code Development',
+      description: 'Custom, scalable websites built with clean, responsive design—no dev team needed.',
+    },
+  ],
+  bottomSection: [
+    {
+      title: 'Motion Design & Animation',
+      description: 'Short-form animations, animated branding, reels, and product explainers.',
+    },
+    {
+      title: 'AI-Enhanced Visual Production',
+      description: 'Creative exploration + rapid ideation using Stable Diffusion, RunwayML, and more.',
+    },
+    {
+      title: 'Prototyping & Design Systems',
+      description: 'Interactive Figma prototypes and scalable design libraries for agile teams.',
+    },
+    {
+      title: 'Creative Consulting',
+      description: 'Brand audits, campaign ideation, and design ops support for startups and studios.',
+    },
+    {
+      title: 'Art Direction for Campaigns',
+      description: 'Styling and concepting visual direction for marketing, product, or brand launches.',
+    },
+  ],
 }
 ---
 
@@ -49,107 +76,38 @@ const awards = {
       </div><!-- .s__content -->
     </div><!-- .s__block -->
 
-    <div class="s__block s__block--awards">
-      <h2 class="s__title">Recognition</h2>
+    <div class="s__block s__block--services">
+      <h2 class="s__title">Services</h2>
 
-      <ul class="s__awards">
-        {
-          Object.entries(awards.counters).map(([award, counters]) => (
-            <li
-              class={`s__award s__award--counter s__award--${award} js-award`}
-            >
-              <span class="s__award__inner">
-                <span class="s__award__name">{award}</span>
-                {counters.map((counter) => (
-                  <span class="s__award__counter">({counter})</span>
-                ))}
-              </span>
+      <div class="s__services">
+        <div class="s__services__section s__services__section--top">
+          {
+            services.topSection.map((service, index) => (
+              <div class={`s__service s__service--${index + 1} js-service`}>
+                <div class="s__service__inner">
+                  <h3 class="s__service__title">{service.title}</h3>
+                  <p class="s__service__description">{service.description}</p>
+                </div>
+                <div class="s__service__mask" />
+              </div>
+            ))
+          }
+        </div>
 
-              <span class="s__award__mask" />
-            </li>
-          ))
-        }
-
-        {
-          Object.entries(awards.texts).map(([award, text]) => (
-            <li class={`s__award s__award--text s__award--${award} js-award`}>
-              <span class="s__award__inner">
-                <span class="s__award__text" set:html={text} />
-              </span>
-
-              <span class="s__award__mask" />
-            </li>
-          ))
-        }
-
-        <li class="s__award s__award--blank">
-          <svg
-            width="101"
-            height="113"
-            viewBox="0 0 101 113"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M80.05 107.398c-21.944 12.67-52.875.18-69.085-27.896m69.086 27.896c21.945-12.67 26.594-45.702 10.384-73.778M80.05 107.398c-19.686 11.366-48.786-2.181-64.996-30.258C-1.155 49.063 1.663 17.09 21.35 5.723m58.702 101.675c19.686-11.366 22.504-43.34 6.293-71.417C70.134 7.904 41.034-5.642 21.35 5.723m58.702 101.675c-10.973 6.335-33.009-11.29-49.219-39.367-16.21-28.077-20.456-55.973-9.483-62.308m58.702 101.675c10.972-6.335 6.726-34.231-9.484-62.308C54.357 17.013 32.322-.612 21.35 5.723m58.702 101.675c3.74-2.159-6.262-26.77-22.456-54.818S25.089 3.564 21.349 5.723m58.702 101.675c-3.74 2.159-20.053-18.808-36.246-46.856C27.61 32.493 17.609 7.882 21.349 5.723M10.965 79.502C-5.245 51.425-.596 18.393 21.349 5.723M10.965 79.502c11.366 19.686 38.37 25.373 60.314 12.703 21.946-12.67 30.522-38.9 19.156-58.585m-79.47 45.882C-.401 59.816 8.175 33.586 30.121 20.916c21.945-12.67 48.948-6.982 60.314 12.704m-79.47 45.882c6.335 10.972 29.26 9.596 51.206-3.074C84.115 63.758 96.77 44.592 90.434 33.62m-79.47 45.882C4.63 68.529 17.285 49.363 39.23 36.693c21.945-12.67 44.87-14.046 51.205-3.073M21.349 5.723c21.945-12.67 52.876-.18 69.086 27.897M54.749 63.573C32.778 76.258 13.192 83.358 11.033 79.618c-2.16-3.74 13.783-17.15 35.754-29.836 21.97-12.685 41.557-19.785 43.716-16.045 2.159 3.74-13.783 17.15-35.754 29.836Z"
-            >
-            </path>
-          </svg>
-
-          <svg
-            width="49"
-            height="49"
-            viewBox="0 0 49 49"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill="#160000"
-              d="m24.5 0 3.3 21.2L49 24.5l-21.2 3.3L24.5 49l-3.3-21.2L0 24.5l21.2-3.3L24.5 0z"
-            >
-            </path>
-          </svg>
-          <svg
-            width="49"
-            height="49"
-            viewBox="0 0 49 49"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill="#160000"
-              d="m24.5 0 3.3 21.2L49 24.5l-21.2 3.3L24.5 49l-3.3-21.2L0 24.5l21.2-3.3L24.5 0z"
-            >
-            </path>
-          </svg>
-          <svg
-            width="49"
-            height="49"
-            viewBox="0 0 49 49"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill="#160000"
-              d="m24.5 0 3.3 21.2L49 24.5l-21.2 3.3L24.5 49l-3.3-21.2L0 24.5l21.2-3.3L24.5 0z"
-            >
-            </path>
-          </svg>
-          <svg
-            width="49"
-            height="49"
-            viewBox="0 0 49 49"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill="#160000"
-              d="m24.5 0 3.3 21.2L49 24.5l-21.2 3.3L24.5 49l-3.3-21.2L0 24.5l21.2-3.3L24.5 0z"
-            >
-            </path>
-          </svg>
-        </li>
-      </ul><!-- .s__content -->
+        <div class="s__services__section s__services__section--bottom">
+          {
+            services.bottomSection.map((service, index) => (
+              <div class={`s__service s__service--${index + 6} js-service`}>
+                <div class="s__service__inner">
+                  <h3 class="s__service__title">{service.title}</h3>
+                  <p class="s__service__description">{service.description}</p>
+                </div>
+                <div class="s__service__mask" />
+              </div>
+            ))
+          }
+        </div>
+      </div><!-- .s__services -->
     </div><!-- .s__block -->
   </div><!-- .s__inner -->
 
@@ -171,7 +129,7 @@ const awards = {
     path: HTMLElement
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
-    awards: NodeListOf<HTMLElement>
+    services: NodeListOf<HTMLElement>
 
     smileyImages: {
       main: HTMLImageElement
@@ -212,7 +170,7 @@ const awards = {
       this.path = this.el.querySelector('.js-path')
       ;(this.canvas = document.querySelector('.js-canvas')),
         (this.ctx = this.canvas.getContext('2d'))
-      this.awards = this.el.querySelectorAll('.js-award')
+      this.services = this.el.querySelectorAll('.js-service')
 
       // Properties
       this.lines = []
@@ -268,14 +226,14 @@ const awards = {
         }
       )
 
-      this.awards.forEach((award) => {
-        observer.observe(award)
+      this.services.forEach((service) => {
+        observer.observe(service)
 
-        const awardInteraction = this.onAwardInteraction.bind(this, award)
-        award.addEventListener('mouseenter', awardInteraction, {
+        const serviceInteraction = this.onServiceInteraction.bind(this, service)
+        service.addEventListener('mouseenter', serviceInteraction, {
           passive: true,
         })
-        award.addEventListener('touchstart', awardInteraction, {
+        service.addEventListener('touchstart', serviceInteraction, {
           passive: true,
         })
       })
@@ -328,15 +286,15 @@ const awards = {
     }
 
     /**
-     * Award interaction handler
+     * Service interaction handler
      */
-    onAwardInteraction(award) {
-      award.classList.add('is-active')
+    onServiceInteraction(service) {
+      service.classList.add('is-active')
 
-      this.throwSmileys(award)
+      this.throwSmileys(service)
 
       setTimeout(() => {
-        award.classList.remove('is-active')
+        service.classList.remove('is-active')
       }, 100)
     }
 
@@ -592,7 +550,7 @@ const awards = {
     /**
      * Throw smileys
      */
-    throwSmileys(award) {
+    throwSmileys(service) {
       const { el, ctx, smileyImages, smileys } = this
 
       const image = document.documentElement.classList.contains(
@@ -602,10 +560,10 @@ const awards = {
         : smileyImages.main
 
       const elBounding = el.getBoundingClientRect()
-      const awardBounding = award.getBoundingClientRect()
+      const serviceBounding = service.getBoundingClientRect()
 
-      const x = awardBounding.left + awardBounding.width * 0.5 - elBounding.left
-      const y = awardBounding.top + awardBounding.height * 0.5 - elBounding.top
+      const x = serviceBounding.left + serviceBounding.width * 0.5 - elBounding.left
+      const y = serviceBounding.top + serviceBounding.height * 0.5 - elBounding.top
 
       const maxSmileys = window.safeWidth > 767 ? 10 : 5
       for (let i = 0; i < maxSmileys; i++) {
@@ -864,12 +822,12 @@ const awards = {
       }
     }
 
-    .s__awards {
+    .s__services {
       margin: 0;
       padding: 0;
       display: grid;
-      grid-template-columns: repeat(4, calc(var(--width) / 4));
-      grid-template-rows: repeat(8, calc(var(--width) / 4 / 0.751));
+      grid-template-columns: 1fr;
+      gap: 0;
 
       background: repeating-linear-gradient(
         -45deg,
@@ -884,11 +842,6 @@ const awards = {
       list-style: none;
       overflow: hidden;
 
-      @include mq(tablet-sm) {
-        grid-template-columns: repeat(4, calc(var(--width) / 4));
-        grid-template-rows: repeat(10, calc(var(--width) / 4 / 0.75));
-      }
-
       @at-root :global(.theme-contrasted) & {
         background: repeating-linear-gradient(
           -45deg,
@@ -901,18 +854,32 @@ const awards = {
         );
       }
 
-      .s__award {
+      &__section {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+
+        @include mq(tablet-sm) {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .s__service {
         position: relative;
         z-index: 2;
 
         margin: 0;
-        padding: 0.75rem;
+        padding: 1.5rem;
 
         background: color(primary);
         clip-path: inset(-1px);
         cursor: default;
 
         will-change: transform;
+
+        @include mq(phone) {
+          padding: 1rem;
+        }
 
         &:before {
           position: absolute;
@@ -975,269 +942,30 @@ const awards = {
           }
         }
 
-        &__name {
-          font: 700 6.5625rem / 0.82 font-family(bigger);
-          word-break: break-word;
+        &__title {
+          margin: 0 0 0.5rem 0;
+
+          font: 700 1.25rem / 1.2 font-family(fraktion);
           text-transform: uppercase;
-
-          @include mq(desktop-xs) {
-            font-size: 5rem;
-          }
-
-          @include mq(phone) {
-            font-size: 4rem;
-          }
-
-          @include mq(phone-xs) {
-            font-size: 3.75rem;
-          }
-        }
-
-        &__counter {
-          font: 200 1.25rem / 1.3 font-family(editorial);
-
-          @include mq(desktop-xs) {
-            font-size: 1.15rem;
-          }
+          letter-spacing: 0.05em;
 
           @include mq(phone) {
             font-size: 1.1rem;
           }
         }
 
-        &__text {
-          display: block;
-          margin: 0.25em 0 0;
+        &__description {
+          margin: 0;
 
-          font: 200 2.25rem / 1.13 font-family(editorial);
-          text-align: center;
-          text-wrap: balance;
-
-          @include mq(desktop-xs) {
-            font-size: 1.75rem;
-          }
-
-          @include mq(tablet-sm) {
-            font-size: 1.5rem;
-          }
+          font: 200 1rem / 1.4 font-family(editorial);
 
           @include mq(phone) {
-            font-size: 1.25rem;
-          }
-
-          @include mq(phone-sm) {
-            font-size: 1.15rem;
-          }
-        }
-
-        &--counter {
-          .s__award__inner {
-            @include flex(column, flex-start, flex-end);
-          }
-        }
-
-        &--text {
-          .s__award__inner {
-            @include flex(column, center, center);
-          }
-        }
-
-        &--webby2025 {
-          grid-column: 1 / 5;
-          grid-row: 1 / 2;
-        }
-
-        &--awwwards {
-          grid-column: 1 / 3;
-          grid-row: 2 / 4;
-
-          @include mq(tablet-sm) {
-            grid-column: 1 / 3;
-            grid-row: 2 / 4;
-          }
-
-          .s__award__name {
-            font-size: 8.625rem;
-
-            @include mq(desktop-xs) {
-              font-size: 6.5rem;
-            }
-
-            @include mq(tablet-sm) {
-              font-size: 5.5rem;
-            }
-
-            @include mq(phone) {
-              font-size: 4rem;
-            }
-
-            @include mq(phone-sm) {
-              font-size: 3.5rem;
-            }
-          }
-        }
-
-      &--netMag2016 {
-        grid-column: 3 / 5;
-        grid-row: 2 / 3;
-
-        @include mq(tablet-sm) {
-          grid-column: 3 / 5;
-          grid-row: 2 / 3;
-        }
-      }
-
-        &--commArt2017 {
-          grid-column: 1 / 5;
-          grid-row: 4 / 5;
-
-          @include mq(tablet-sm) {
-            grid-column: 1 / 5;
-            grid-row: 8 / 9;
-          }
-        }
-
-        &--fwa {
-          grid-column: 4 / 5;
-          grid-row: 3 / 4;
-
-          @include mq(tablet-sm) {
-            grid-column: 3 / 6;
-            grid-row: 4 / 6;
-          }
-        }
-
-        &--gsapOct2024 {
-          grid-column: 1 / 3;
-          grid-row: 6 / 7;
-
-          @include mq(tablet-sm) {
-            grid-column: 1 / 3;
-            grid-row: 4 / 5;
-          }
-        }
-
-        &--gsapNov2024 {
-          grid-column: 3 / 5;
-          grid-row: 6 / 7;
-
-          @include mq(tablet-sm) {
-            grid-column: 3 / 5;
-            grid-row: 6 / 7;
-          }
-        }
-
-        &--cssda {
-          grid-column: 2 / 4;
-          grid-row: 5 / 6;
-
-          @include mq(tablet-sm) {
-            grid-column: 1 / 3;
-            grid-row: 6 / 8;
-          }
-        }
-
-        &--CSSDA2016 {
-          grid-column: 2 / 5;
-          grid-row: 7 / 8;
-
-          @include mq(tablet-sm) {
-            grid-column: 1 / 4;
-            grid-row: 9 / 10;
-          }
-        }
-
-        &--CSSDA2015 {
-          grid-column: 1 / 4;
-          grid-row: 8 / 9;
-
-          @include mq(tablet-sm) {
-            grid-column: 2 / 5;
-            grid-row: 10 / 11;
-          }
-
-          &:before {
-            bottom: -1px;
-          }
-        }
-
-        &--blank {
-          grid-column: 1 / 2;
-          grid-row: 5 / 6;
-
-          @include mq(tablet-sm) {
-            grid-column: 3 / 5;
-            grid-row: 7 / 8;
-          }
-
-          &:after {
-            display: none;
-          }
-
-          svg {
-            position: absolute;
-
-            &:nth-child(1) {
-              top: 50%;
-              left: 50%;
-
-              width: 62.538%;
-              height: 53.1333%;
-
-              transform: translate(-50%, -50%);
-
-              path {
-                fill: none;
-                stroke: color(secondary);
-                stroke-width: 1px;
-              }
-            }
-
-            &:nth-child(2),
-            &:nth-child(3),
-            &:nth-child(4),
-            &:nth-child(5) {
-              position: absolute;
-
-              width: 12.1203%;
-              height: auto;
-
-              path {
-                fill: color(secondary);
-                stroke: none;
-              }
-            }
-
-            &:nth-child(2) {
-              top: 0.5rem;
-              left: 0.5rem;
-            }
-
-            &:nth-child(3) {
-              top: 0.5rem;
-              right: 0.5rem;
-            }
-
-            &:nth-child(4) {
-              bottom: 0.5rem;
-              left: 0.5rem;
-            }
-
-            &:nth-child(5) {
-              bottom: 0.5rem;
-              right: 0.5rem;
-            }
-          }
-
-          path {
-            fill: none;
-            stroke: color(secondary);
-            stroke-width: 1px;
+            font-size: 0.9rem;
           }
         }
 
         &.is-active {
-          .s__award__inner {
+          .s__service__inner {
             scale: 0.9;
 
             transition: scale 0.1s ease(out-quint);
@@ -1245,11 +973,11 @@ const awards = {
         }
 
         &.is-revealed {
-          .s__award__inner {
+          .s__service__inner {
             translate: 0 0;
           }
 
-          .s__award__mask {
+          .s__service__mask {
             clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
 
             &:before {
